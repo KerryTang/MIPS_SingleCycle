@@ -34,7 +34,7 @@ Put the iimage.bin and dimage.bin in the working directory
 
 
 <h1>Reference</h1>
-<h2>Reduced MIPS R3000 ISA</h2>
+<h6>Reduced MIPS R3000 ISA</h6>
 <ul>
   <li>R-format</li>
     <table>
@@ -306,6 +306,6 @@ Put the iimage.bin and dimage.bin in the working directory
       <tr>
         <td>halt</td>
         <td>0x3F</td>
-        <td></td>
+        <td>X</td>
     </table>
 </ul>
