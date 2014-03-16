@@ -1,0 +1,311 @@
+<h1>MIPS Single Cycle</h1>
+A single-cycle, functional processor simulator according to the reduced MIPS R3000 ISA. This project is developed for 2014 Spring CS410001-Computer Architecture course offerd by Prof. Ren-Song Tsay @ National Tsing Hua University 
+
+<h1>Characteristic</h1>
+<ul>
+  <li>To meet the needs in course, both the instruction memory and data memory are changed into little-endian format.</li>
+  <li>Register 0 is a hard-wired constant 0; any attempt to write to register 0 takes no effect.</li>
+  <li>Assume that both the instruction memory and data memory are of 1K bytes size. </li>
+  <li>An error handler is implemented to deal with erroneous instruction executions. </li>
+  <li>The execution of the single cycle processor simulator would terminate after executing the halt instruction.</li>
+</ul> 
+
+<h1>Input format</h1>
+For each test case, all registers, except PC and $sp, are initialized to 0’s; other initial conditions are specified in the following two files. 
+<ul>
+  <li><b>iimage.bin:</b> The instruction image (little-endian format, encoded in binary). The first four bytes indicate the initial value of PC, i.e. the starting address to load the instruction image. The next four bytes specify the number of words to be loaded into instruction memory (I memory). The remaining are the program text to be loaded into I memory. All other addresses not covered by the image are assumed to have been initialized to 0’s. </li>
+  <li><b>dimage.bin:</b> The data image (little-endian format, encoded in binary). The first four bytes show the initial value of $sp. The next four bytes indicate how many words to be loaded into data memory (D memory). The remaining are the data to be loaded into D memory, starting from address 0. The contents of all other addresses not covered by the image are assumed to have been initialized to 0’s.</li>
+</ul>
+
+<h1>Output format</h1>  
+For each test case, the simulator wiil generate the following two files respectively: 
+<ul>
+  <li><b>snapshot.rpt:</b> contain all register values at each cycle. </li>
+  <li><b>error_dump.rpt:</b> contain error messages. </li>
+</ul>
+
+<h1>Usage</h1>
+Put the iimage.bin and dimage.bin in the working directory
+<ul>
+  <li><b>make:</b> compile single_cycle</li>
+  <li><b>make clean:</b> clean cache and log files generated in compiling</li>
+  <li>execute single_cycle</li>
+</ul>
+
+
+<h1>Reference</h1>
+<h2>Reduced MIPS R3000 ISA</h2>
+<ul>
+  <li>R-format</li>
+    <table>
+      <tr>
+        <th>R</th>
+        <th>opcode(6)</th>
+        <th>rs(5)</th>
+        <th>rt(5)</th>
+        <th>rd(5)</th>
+        <th>shamt(5)</th>
+        <th>funct(6)</th>
+      </tr>
+      <tr>
+        <td>add</td>
+        <td>0x00</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>0x20</td>
+      </tr>
+      <tr>
+        <td>sub</td>
+        <td>0x00</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>0x22</td>
+      </tr>
+      <tr>
+        <td>and</td>
+        <td>0x00</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>0x24</td>
+      </tr>
+      <tr>
+        <td>or</td>
+        <td>0x00</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>0x25</td>
+      </tr>
+      <tr>
+        <td>xor</td>
+        <td>0x00</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>0x26</td>
+      </tr>
+      <tr>
+        <td>nor</td>
+        <td>0x00</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>0x27</td>
+      </tr>
+      <tr>
+        <td>nand</td>
+        <td>0x00</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>0x28</td>
+      </tr>
+      <tr>
+        <td>slt</td>
+        <td>0x00</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>X</td>
+        <td>0x2A</td>
+      </tr>
+      <tr>
+        <td>sll</td>
+        <td>0x00</td>
+        <td>X</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>0x00</td>
+      </tr>
+      <tr>
+        <td>srl</td>
+        <td>0x00</td>
+        <td>X</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>0x02</td>
+      </tr>
+      <tr>
+        <td>sra</td>
+        <td>0x00</td>
+        <td>X</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>0x03</td>
+      </tr>
+      <tr>
+        <td>jr</td>
+        <td>0x00</td>
+        <td></td>
+        <td>X</td>
+        <td>X</td>
+        <td>X</td>
+        <td>0x08</td>
+      </tr>
+    </table> 
+  <li>I Type Instruction</li>
+    <table>
+      <tr>
+        <th>I</th>
+        <th>opcode(6)</th>
+        <th>rs(5)</th>
+        <th>rt(5)</th>
+        <th>immediate(16)</th>
+      </tr>
+      <tr>
+        <td>addi</td>
+        <td>0x08</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>lw</td>
+        <td>0x23</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>lh</td>
+        <td>0x21</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>lhu</td>
+        <td>0x25</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>lb</td>
+        <td>0x20</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>lbu</td>
+        <td>0x24</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>sw</td>
+        <td>0x2B</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>sh</td>
+        <td>0x29</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>sb</td>
+        <td>0x28</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>lui</td>
+        <td>0x0F</td>
+        <td>X</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>andi</td>
+        <td>0x0C</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ori</td>
+        <td>0x0D</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>nori</td>
+        <td>0x0E</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>slti</td>
+        <td>0x0A</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>beq</td>
+        <td>0x04</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>bne</td>
+        <td>0x05</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+  <li>J Type Instruction</li>
+    <table>
+      <tr>
+        <th>J</th>
+        <th>opcode(6)</th>
+        <th>address(26)</th>
+      </tr>
+      <tr>
+        <td>jr</td>
+        <td>0x02</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>jal</td>
+        <td>0x03</td>
+        <td></td>
+      </tr>
+    </table>
+  <li>Special Type Instruction</li>
+  <table>
+      <tr>
+        <th>S</th>
+        <th>opcode(6)</th>
+        <th>address(26)</th>
+      </tr>
+      <tr>
+        <td>halt</td>
+        <td>0x3F</td>
+        <td></td>
+    </table>
+</ul>
